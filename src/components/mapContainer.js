@@ -8,8 +8,10 @@ import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import 'ol/ol.css';
 
 class MapContainer extends React.Component {
-vectorSource = new VectorSource;
-map;
+  vectorSource = new VectorSource;
+  map;
+  servicesArray = [];
+
 
   componentDidMount() {
     this.initialiseMap()
@@ -17,26 +19,23 @@ map;
   }
 
   initialiseMap() {
+    const place = [-4.226996, 55.899248]
+    const lonlat = fromLonLat(place)
+    const point = new Point(lonlat)
     const eastDunbartonshire = [-4.202298, 55.9743162];
     const eastDunbartonshireWebMercator = fromLonLat(eastDunbartonshire);
-    this.vectorSource = new VectorSource({
-      features: []
-    });
     const raster = new TileLayer({ source: new OSM() });
     const vectorLayer = new VectorLayer({
-      source: this.vectorSource,
-      style: new Style({
-        fill: new Fill({
-          color: 'rgba(255, 255, 255, 0.2)'
-        }),
-        stroke: new Stroke({
-          color: '#362503',
-          width: 2
-        }),
-        image: new CircleStyle({
-          radius: 5,
-          fill: new Fill({
-            color: '#362503'
+      source: new VectorSource({
+        features: [
+          new Feature(point)
+        ],
+        style: new Style({
+          image: new CircleStyle({
+            radius: 9,
+            fill: new Fill({
+              color: '#362503'
+            })
           })
         })
       })
@@ -56,11 +55,19 @@ map;
     return this.map;
   }
 
-    render() {
-        return (
-        <div id="mapContainer" ref="mapContainer">{this.map}</div>
-        );
-    }
+  // buildFeaturesArray() {
+  //   let featuresArray = []
+  //   const point = new Point([-4.227017, 55.899170]);
+  //   featuresArray.push(new Feature(point))
+
+  //   return featuresArray
+  // }
+
+  render() {
+    return (
+      <div id="mapContainer" ref="mapContainer">{}</div>
+    );
+  }
 
 }
 
