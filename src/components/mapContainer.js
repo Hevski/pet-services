@@ -19,16 +19,20 @@ class MapContainer extends React.Component {
   initialiseMap() {
     const eastDunbartonshire = [-4.202298, 55.9743162];
     const eastDunbartonshireWebMercator = fromLonLat(eastDunbartonshire);
+    const vectorSource = new VectorSource({
+      features: this.buildServicesArray(),
+    })
     const raster = new TileLayer({ source: new OSM() });
     const vectorLayer = new VectorLayer({
-      source: new VectorSource({
-        features: this.buildServicesArray(),
-        style: new Style({
-          image: new CircleStyle({
-            radius: 9,
-            fill: new Fill({
-              color: '#362503'
-            })
+      source: vectorSource,
+      style: new Style({
+        fill: new Fill({
+          color: 'rgba(255, 255, 255, 0.2)'
+        }),
+        image: new CircleStyle({
+          radius: 5,
+          fill: new Fill({
+            color: '#362503'
           })
         })
       })
