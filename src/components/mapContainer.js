@@ -10,26 +10,19 @@ import 'ol/ol.css';
 class MapContainer extends React.Component {
   vectorSource = new VectorSource;
   map;
-  servicesArray = [];
-
 
   componentDidMount() {
     this.initialiseMap()
     this.getMap();
   }
-
+  
   initialiseMap() {
-    const place = [-4.226996, 55.899248]
-    const lonlat = fromLonLat(place)
-    const point = new Point(lonlat)
     const eastDunbartonshire = [-4.202298, 55.9743162];
     const eastDunbartonshireWebMercator = fromLonLat(eastDunbartonshire);
     const raster = new TileLayer({ source: new OSM() });
     const vectorLayer = new VectorLayer({
       source: new VectorSource({
-        features: [
-          new Feature(point)
-        ],
+        features: this.buildServicesArray(),
         style: new Style({
           image: new CircleStyle({
             radius: 9,
@@ -55,13 +48,15 @@ class MapContainer extends React.Component {
     return this.map;
   }
 
-  // buildFeaturesArray() {
-  //   let featuresArray = []
-  //   const point = new Point([-4.227017, 55.899170]);
-  //   featuresArray.push(new Feature(point))
-
-  //   return featuresArray
-  // }
+  buildServicesArray() {
+    let coordinatesArray = [];
+    const servicesArray = this.props.petServiceData
+    servicesArray.map(service => {
+      const point = new Point(fromLonLat(service.coordinates))
+      coordinatesArray.push(new Feature(point))
+    })
+    return coordinatesArray;
+  }
 
   render() {
     return (
