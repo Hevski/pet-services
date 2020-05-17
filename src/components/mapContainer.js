@@ -6,14 +6,26 @@ import { Point } from 'ol/geom';
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import 'ol/ol.css';
+import Sidebar from "react-sidebar";
 
 class MapContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sidebarOpen: true
+    };
+    this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+  }
   vectorSource = new VectorSource;
   map;
 
   componentDidMount() {
     this.initialiseMap()
     this.getMap();
+  }
+
+  onSetSidebarOpen(open) {
+    this.setState({ sidebarOpen: open });
   }
   
   initialiseMap() {
@@ -64,7 +76,19 @@ class MapContainer extends React.Component {
 
   render() {
     return (
+      <react-fragment>
       <div id="mapContainer" ref="mapContainer">{}</div>
+      <Sidebar
+        sidebar={<b>Sidebar content</b>}
+        open={this.state.sidebarOpen}
+        onSetOpen={this.onSetSidebarOpen}
+        styles={{ sidebar: { background: "white" } }}
+      >
+        <button onClick={() => this.onSetSidebarOpen(true)}>
+          Open sidebar
+        </button>
+      </Sidebar>
+      </react-fragment>
     );
   }
 
