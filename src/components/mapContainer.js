@@ -7,6 +7,8 @@ import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import 'ol/ol.css';
 import Sidebar from "react-sidebar";
+import ServiceInfo from './serviceInfo';
+import serviceInfo from './serviceInfo';
 
 class MapContainer extends React.Component {
   constructor(props) {
@@ -27,7 +29,7 @@ class MapContainer extends React.Component {
   onSetSidebarOpen(open) {
     this.setState({ sidebarOpen: open });
   }
-  
+
   initialiseMap() {
     const eastDunbartonshire = [-4.202298, 55.9743162];
     const eastDunbartonshireWebMercator = fromLonLat(eastDunbartonshire);
@@ -74,20 +76,31 @@ class MapContainer extends React.Component {
     return coordinatesArray;
   }
 
+  renderServiceInfoComponents() {
+    const serviceItems = this.props.petServiceData.map((service) =>
+      <ServiceInfo key={service.id} companyName={service.companyName} service={service.service} website={service.website} />
+    );
+    return (
+      <li className="service-info-container">
+        {serviceItems}
+      </li>
+    );
+  }
+
   render() {
     return (
       <react-fragment>
-      <div id="mapContainer" ref="mapContainer">{}</div>
-      <Sidebar
-        sidebar={<b>Sidebar content</b>}
-        open={this.state.sidebarOpen}
-        onSetOpen={this.onSetSidebarOpen}
-        styles={{ sidebar: { background: "white" } }}
-      >
-        <button onClick={() => this.onSetSidebarOpen(true)}>
-          Open sidebar
+        <div id="mapContainer" ref="mapContainer">{}</div>
+        <Sidebar
+          sidebar={this.renderServiceInfoComponents()}
+          open={this.state.sidebarOpen}
+          onSetOpen={this.onSetSidebarOpen}
+          styles={{ sidebar: { background: "white" } }}
+        >
+          <button onClick={() => this.onSetSidebarOpen(true)}>
+            View List
         </button>
-      </Sidebar>
+        </Sidebar>
       </react-fragment>
     );
   }

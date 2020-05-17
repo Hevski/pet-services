@@ -2,3 +2,25 @@
   height: 850px;
   width: 100%;
 }
+
+.service-info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-info-card {
+  border-style: solid;
+  border-radius: 15px;
+  margin: 4px;
+  padding: 4px;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  float: right;
+  padding: 10px;
+  margin: 2px;
+}
