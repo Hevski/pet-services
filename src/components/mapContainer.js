@@ -1,4 +1,8 @@
 import React from 'react';
+import Sidebar from "react-sidebar";
+import Modal from 'react-modal';
+import ServiceInfo from './serviceInfo';
+import ServiceForm from './serviceForm';
 import { OSM, Vector as VectorSource } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import { Map, View, Feature } from 'ol/index';
@@ -6,20 +10,28 @@ import { Point } from 'ol/geom';
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import 'ol/ol.css';
-import Sidebar from "react-sidebar";
-import ServiceInfo from './serviceInfo';
-import serviceInfo from './serviceInfo';
 
 class MapContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sidebarOpen: true
+      sidebarOpen: true,
+      modalOpen: false
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
   }
   vectorSource = new VectorSource;
   map;
+  customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)'
+    }
+  };
 
   componentDidMount() {
     this.initialiseMap()
@@ -76,14 +88,14 @@ class MapContainer extends React.Component {
     return coordinatesArray;
   }
 
-  renderServiceInfoComponents() {
+  renderSidebarComponents() {
     const serviceItems = this.props.petServiceData.map((service) =>
       <ServiceInfo key={service.id} companyName={service.companyName} service={service.service} website={service.website} />
     );
     return (
       <React.Fragment>
         <div className="service-info-card">
-          <p>Add New Service</p>
+         <button onClick={() => this.setState({sidebarOpen: false, modalOpen: true})} >Add Service</button>
         </div>
         <li className="service-info-container">
           {serviceItems}
@@ -97,7 +109,7 @@ class MapContainer extends React.Component {
       <react-fragment>
         <div id="mapContainer" ref="mapContainer" />
         <Sidebar
-          sidebar={this.renderServiceInfoComponents()}
+          sidebar={this.renderSidebarComponents()}
           open={this.state.sidebarOpen}
           onSetOpen={this.onSetSidebarOpen}
           styles={{ sidebar: { background: "white" } }}
@@ -106,6 +118,11 @@ class MapContainer extends React.Component {
             View List
         </button>
         </Sidebar>
+        <Modal 
+          isOpen={this.state.modalOpen}
+          style={this.customStyles}>
+          <ServiceForm></ServiceForm>
+        </Modal>
       </react-fragment>
     );
   }
