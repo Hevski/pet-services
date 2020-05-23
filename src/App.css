@@ -10,7 +10,8 @@
 
 .service-info-card {
   border-style: solid;
-  border-radius: 15px;
+  border-width: thin;
+  border-radius: 5px;
   margin: 4px;
   padding: 4px;
   min-height: 80px;
@@ -22,6 +23,11 @@ a {
 
 p {
   margin-bottom: 2px;
+  font-family: inherit;
+}
+
+.service-info-card:hover {
+  background-color: rgb(219, 219, 213);
 }
 
 .sidebarButton {

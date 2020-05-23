@@ -2,12 +2,12 @@ import React from 'react';
 import Sidebar from "react-sidebar";
 import Modal from 'react-modal';
 import ServiceInfo from './serviceInfo';
-import ServiceForm from './serviceForm';
+// import ServiceForm from './serviceForm';
 import { OSM, Vector as VectorSource } from 'ol/source';
 import { fromLonLat } from 'ol/proj';
 import { Map, View, Feature } from 'ol/index';
 import { Point } from 'ol/geom';
-import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
+import { Circle as CircleStyle, Fill, Icon, Style } from 'ol/style';
 import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
 import 'ol/ol.css';
 
@@ -52,14 +52,11 @@ class MapContainer extends React.Component {
     const vectorLayer = new VectorLayer({
       source: vectorSource,
       style: new Style({
-        fill: new Fill({
-          color: 'rgba(255, 255, 255, 0.2)'
-        }),
-        image: new CircleStyle({
-          radius: 5,
-          fill: new Fill({
-            color: '#362503'
-          })
+        image: new Icon({
+          anchor: [0.5, 46],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: 'https://openlayers.org/en/v3.20.1/examples/data/icon.png'
         })
       })
     });
@@ -98,13 +95,6 @@ class MapContainer extends React.Component {
     );
     return (
       <React.Fragment>
-        <div className="service-info-card">
-          <button 
-            className="addServiceButton" 
-           onClick={() => this.setState({sidebarOpen: false, modalOpen: true})} 
-           >Add Service
-           </button>
-        </div>
         <li className="service-info-container">
           {serviceItems}
         </li>
@@ -130,7 +120,6 @@ class MapContainer extends React.Component {
         <Modal 
           isOpen={this.state.modalOpen}
           style={this.customStyles}>
-          <ServiceForm></ServiceForm>
         </Modal>
       </react-fragment>
     );
