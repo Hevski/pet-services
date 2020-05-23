@@ -90,12 +90,20 @@ class MapContainer extends React.Component {
 
   renderSidebarComponents() {
     const serviceItems = this.props.petServiceData.map((service) =>
-      <ServiceInfo key={service.id} companyName={service.companyName} service={service.service} website={service.website} />
+      <ServiceInfo 
+       key={service.id} 
+       companyName={service.companyName} 
+       service={service.service} 
+       website={service.website} />
     );
     return (
       <React.Fragment>
         <div className="service-info-card">
-         <button onClick={() => this.setState({sidebarOpen: false, modalOpen: true})} >Add Service</button>
+          <button 
+            className="addServiceButton" 
+           onClick={() => this.setState({sidebarOpen: false, modalOpen: true})} 
+           >Add Service
+           </button>
         </div>
         <li className="service-info-container">
           {serviceItems}
@@ -114,7 +122,7 @@ class MapContainer extends React.Component {
           onSetOpen={this.onSetSidebarOpen}
           styles={{ sidebar: { background: "white" } }}
         >
-          <button onClick={() => this.onSetSidebarOpen(true)}>
+          <button className="sidebarButton" onClick={() => this.onSetSidebarOpen(true)}>
             View List
         </button>
         </Sidebar>

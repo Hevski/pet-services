@@ -11,8 +11,10 @@ function serviceForm(props) {
           <input type="text"></input>
           <p>URL:</p>
           <input type="text"></input>
-          <button>Add</button>
-          <button>Cancel</button>
+          <div className="buttonContainer">
+          <button className="formButton">Add</button>
+          <button className="formButton">Cancel</button>
+          </div>
         </form> 
       </div>
     )
