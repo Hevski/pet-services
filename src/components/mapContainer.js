@@ -81,16 +81,21 @@ class MapContainer extends React.Component {
       <ServiceInfo key={service.id} companyName={service.companyName} service={service.service} website={service.website} />
     );
     return (
-      <li className="service-info-container">
-        {serviceItems}
-      </li>
+      <React.Fragment>
+        <div className="service-info-card">
+          <p>Add New Service</p>
+        </div>
+        <li className="service-info-container">
+          {serviceItems}
+        </li>
+      </React.Fragment>
     );
   }
 
   render() {
     return (
       <react-fragment>
-        <div id="mapContainer" ref="mapContainer">{}</div>
+        <div id="mapContainer" ref="mapContainer" />
         <Sidebar
           sidebar={this.renderServiceInfoComponents()}
           open={this.state.sidebarOpen}

@@ -11,6 +11,13 @@ function App() {
     getPetServiceData()
   }, []);
 
+  const addPetService = () => {
+    axios.post('https://crudpi.io/97bd3e/petservices')
+      .then(function (response) {
+        console.log(response)
+      })
+  }
+
   const getPetServiceData = () => {
     axios.get('https://crudpi.io/97bd3e/petservices')
       .then(function (response) {
