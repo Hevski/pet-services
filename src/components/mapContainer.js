@@ -115,7 +115,6 @@ class MapContainer extends React.Component {
   render() {
     return (
       <react-fragment>
-        <div id="mapContainer" ref="mapContainer" />
         <Sidebar
           sidebar={this.renderSidebarComponents()}
           open={this.state.sidebarOpen}
@@ -126,6 +125,8 @@ class MapContainer extends React.Component {
             View List
         </button>
         </Sidebar>
+        <div id="mapContainer" ref="mapContainer">
+        </div>
         <Modal 
           isOpen={this.state.modalOpen}
           style={this.customStyles}>

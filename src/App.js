@@ -19,7 +19,7 @@ function App() {
   }
 
   const getPetServiceData = () => {
-    axios.get('https://crudpi.io/97bd3e/petservices')
+    axios.get('https://crudpi.io/97bd3e/petServices')
       .then(function (response) {
         setPetServiceData(response.data)
       })
