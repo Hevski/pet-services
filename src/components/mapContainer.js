@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import ServiceInfo from './serviceInfo';
 // import ServiceForm from './serviceForm';
 import { OSM, Vector as VectorSource } from 'ol/source';
+import Overlay from 'ol/Overlay';
 import { fromLonLat } from 'ol/proj';
 import { Map, View, Feature } from 'ol/index';
 import { Point } from 'ol/geom';
@@ -15,8 +16,7 @@ class MapContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sidebarOpen: true,
-      modalOpen: false
+      sidebarOpen: false,
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
   }
@@ -69,6 +69,24 @@ class MapContainer extends React.Component {
         zoom: 12,
       })
     });
+
+    var element = document.getElementById('popup');
+
+    var popup = new Overlay({
+      element: element,
+      positioning: 'bottom-center',
+      stopEvent: false,
+      offset: [0, -50]
+    });
+    this.map.addOverlay(popup);
+
+    this.map.on('click', function (evt) {
+      var feature = this.map.forEachFeatureAtPixel(evt.pixel,
+        function (feature) {
+          console.log(feature)
+          return feature;
+        });
+    }.bind(this));
   }
 
   getMap() {
@@ -80,7 +98,12 @@ class MapContainer extends React.Component {
     const servicesArray = this.props.petServiceData
     servicesArray.map(service => {
       const point = new Point(fromLonLat(service.coordinates))
-      coordinatesArray.push(new Feature(point))
+      coordinatesArray.push(new Feature({
+        geometry: point,
+        companyName: service.companyName,
+        service: service.service,
+        website: service.website
+      }))
     })
     return coordinatesArray;
   }
@@ -116,6 +139,7 @@ class MapContainer extends React.Component {
         </button>
         </Sidebar>
         <div id="mapContainer" ref="mapContainer">
+          <div id="popup"></div>
         </div>
         <Modal 
           isOpen={this.state.modalOpen}
