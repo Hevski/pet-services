@@ -64,3 +64,11 @@ form {
   display: flex;
   flex-direction: column;
 }
+
+.popup {
+  background-color: white;
+  padding: 10px;
+  border: black;
+  border-style: groove;
+  border-width: thin;
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import Sidebar from "react-sidebar";
 import Modal from 'react-modal';
 import ServiceInfo from './serviceInfo';
+import ReactDOM from 'react-dom'
 // import ServiceForm from './serviceForm';
 import { OSM, Vector as VectorSource } from 'ol/source';
 import Overlay from 'ol/Overlay';
@@ -71,6 +72,7 @@ class MapContainer extends React.Component {
     });
 
     var element = document.getElementById('popup');
+    var content = document.getElementById('popup-content');
 
     var popup = new Overlay({
       element: element,
@@ -81,10 +83,16 @@ class MapContainer extends React.Component {
     this.map.addOverlay(popup);
 
     this.map.on('click', function (evt) {
-      var feature = this.map.forEachFeatureAtPixel(evt.pixel,
+      var coordinate = evt.coordinate;
+      this.map.forEachFeatureAtPixel(evt.pixel,
         function (feature) {
-          console.log(feature)
-          return feature;
+          if (feature) {
+            let companyName, service, website
+            ({companyName, service, website} = feature.values_)
+
+            content.innerHTML = '<p class="popup">' + companyName + "<br />" + service + "<br />" + website + '</p>';
+            popup.setPosition(coordinate);
+          }
         });
     }.bind(this));
   }
@@ -110,11 +118,11 @@ class MapContainer extends React.Component {
 
   renderSidebarComponents() {
     const serviceItems = this.props.petServiceData.map((service) =>
-      <ServiceInfo 
-       key={service.id} 
-       companyName={service.companyName} 
-       service={service.service} 
-       website={service.website} />
+      <ServiceInfo
+        key={service.id}
+        companyName={service.companyName}
+        service={service.service}
+        website={service.website} />
     );
     return (
       <React.Fragment>
@@ -139,9 +147,12 @@ class MapContainer extends React.Component {
         </button>
         </Sidebar>
         <div id="mapContainer" ref="mapContainer">
-          <div id="popup"></div>
+          <div id="popup" class="ol-popup">
+            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+            <div id="popup-content"></div>
+          </div>
         </div>
-        <Modal 
+        <Modal
           isOpen={this.state.modalOpen}
           style={this.customStyles}>
         </Modal>
