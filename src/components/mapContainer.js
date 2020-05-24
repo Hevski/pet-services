@@ -23,16 +23,6 @@ class MapContainer extends React.Component {
   }
   vectorSource = new VectorSource;
   map;
-  customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
-    }
-  };
 
   componentDidMount() {
     this.initialiseMap()
@@ -84,15 +74,15 @@ class MapContainer extends React.Component {
 
     this.map.on('click', function (evt) {
       var coordinate = evt.coordinate;
-      this.map.forEachFeatureAtPixel(evt.pixel,
-        function (feature) {
-          if (feature) {
-            let companyName, service, website
-            ({companyName, service, website} = feature.values_)
+      content.innerHTML = ''
 
-            content.innerHTML = '<p class="popup">' + companyName + "<br />" + service + "<br />" + website + '</p>';
-            popup.setPosition(coordinate);
-          }
+      this.map.forEachFeatureAtPixel(evt.pixel,
+        (feature) => {
+          let companyName, service, website
+          ({ companyName, service, website } = feature.values_)
+
+          content.innerHTML = '<p class="popup">' + companyName + "<br />" + service + "<br />" + website + '</p>';
+          popup.setPosition(coordinate);
         });
     }.bind(this));
   }
@@ -147,8 +137,8 @@ class MapContainer extends React.Component {
         </button>
         </Sidebar>
         <div id="mapContainer" ref="mapContainer">
-          <div id="popup" class="ol-popup">
-            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+          <div id="popup" className="ol-popup">
+            <a href="#" id="popup-closer" className="ol-popup-closer"></a>
             <div id="popup-content"></div>
           </div>
         </div>
